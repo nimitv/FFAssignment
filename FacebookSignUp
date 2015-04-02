@@ -1,0 +1,74 @@
+package TestNGProject;
+
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+
+public class MiTV_NewUserRegistration {
+	WebDriver driver = new FirefoxDriver();
+	@Test
+	public void newuserregistration() throws InterruptedException{
+
+		driver.get("http://mi.tv/co/programacion");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		MyProfile();
+		WebElement Facebooklogin =driver.findElement(By.id("facebook-connect"));
+		Facebooklogin.click();
+		String parentWindow = driver.getWindowHandle();
+		Set<String> handles = driver.getWindowHandles();
+		for (String windowHandle : handles) 
+		{
+			if (!windowHandle.equals(parentWindow)) {         
+				driver.switchTo().window(windowHandle); 
+
+			}
+		}
+		WebElement FacebookUsername = driver.findElement(By.id("email"));
+		WebElement FacebookPassword = driver.findElement(By.id("pass"));
+		FacebookUsername.sendKeys("tv.nimi@gmail.com");
+		FacebookPassword.sendKeys("");// removed the password
+		WebElement FacebookLogin = driver.findElement(By.id("u_0_2"));
+		FacebookLogin.click();
+
+		WebElement FaceBookSaveBrowser =driver.findElement(By.id("checkpointSubmitButton"));
+		Thread.sleep(1000);
+		FaceBookSaveBrowser.click();
+		//FaceBookSaveBrowser.click();
+		//Thread.sleep(2000);
+		 driver.close();
+		//driver.switchTo().window(parentWindow);
+		// driver.switchTo().defaultContent();
+		WebElement findchannel =driver.findElement(By.xpath("//a[@title='Selecciona tus Canales']"));
+		findchannel.click();
+		System.out.println(findchannel);
+		//findchannel.click();
+		//addchannels();
+
+	}
+
+	public void addchannels(){
+
+		WebElement findchannel =driver.findElement(By.xpath("//a[@title='Selecciona tus Canales']"));
+		findchannel.click();
+	}
+
+	public void MyProfile()
+	{
+		WebElement MyProfile = driver.findElement(By.id("login"));
+		MyProfile.click();
+	}
+
+	/*@AfterClass
+	public void Afterclass() {
+		driver.quit();
+	}*/
+}
