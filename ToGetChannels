@@ -1,0 +1,140 @@
+package TestNGProject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.net.Urls;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+
+public class MiTv_Channels {
+	static WebDriver  driver= new FirefoxDriver();
+	
+	
+
+	@Test
+	public static void findurls() {
+		//launching the url
+		driver.get("http://mi.tv/co/programacion");
+
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		//To find the channels
+		List<WebElement> channels= driver.findElements(By.xpath("//h1/a"));
+		System.out.println("No Of Channels::"+channels.size());
+		for(WebElement temp:channels){
+			System.out.println(temp.getAttribute("title"));
+		}
+		
+		//printing the program details
+		List<WebElement> programs =driver.findElements(By.xpath("//h3/a"));
+		System.out.println("No. of URLs:::" +programs.size());
+		boolean isValid=false;
+		
+		//find program list
+		for(WebElement programno:programs)
+		{
+			isValid = getResponseCode(programno.getAttribute("href"));
+		
+		
+		/*for (int i = 0; i < list.size(); i++) {
+			//System.out.println(list.get(i).getAttribute("href"));
+
+			isValid = getResponseCode(list.get(i).getAttribute("href"));*/
+
+			if (isValid) {
+
+				//System.out.println("True:  "+isValid);
+				System.out.println("ValidLinks:" + programno.getAttribute("href"));
+
+			} else {
+
+				//System.out.println("False:  "+isValid);
+				System.out.println("InvalidLinks:" + programno.getAttribute("href"));
+			}
+		}
+			
+		}
+		
+	
+	public static void GapBetweenBroadcast(String urlString){
+
+		InputStream is = null; 
+		String xpath="//time";
+		try{
+			URL u = new URL(urlString);
+			URLConnection conn = u.openConnection();
+			//HttpURLConnection h = (HttpURLConnection) u.openConnection();
+			BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+			String inputLine;
+			StringBuffer contents = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+            	contents.append(System.getProperty(xpath, inputLine));
+
+                    System.out.println(inputLine);
+            }
+            br.close();
+
+            System.out.println("Done");
+
+
+			/*while ((s = dis.readLine()) != null) 
+			{
+				System.out.println(s);
+			} */
+		}
+			catch (Exception e) {
+
+			}
+
+		}
+
+		public static boolean getResponseCode(String urlString) {
+			boolean isValid = false;
+
+			try {
+				URL u = new URL(urlString);
+				HttpURLConnection h = (HttpURLConnection) u.openConnection();
+				h.setRequestMethod("GET");
+				//to get the time
+				//Object obj=h.getContent();
+				//System.out.println(obj.getClass().
+				h.connect();
+
+				if (h.getResponseCode()!=404) {
+					//System.out.println("Response Code:   "+h.getResponseCode());
+					isValid = true;
+
+				}
+			} catch (Exception e) {
+
+			}
+			return isValid;
+
+		}
+
+	}
+
+
+	/*•	Create test such that it can be used for any country
+•	Verify if there is a Gap between broadcasts
+•	Check if links are broken
+•	Verify if the film icon is displayed for films
+•	Sign in to Facebook and add channels, reorder channels and verify if the channels ordered are getting displayed on clicking mitv Homepage
+	 */
