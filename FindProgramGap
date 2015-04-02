@@ -1,0 +1,201 @@
+package TestNGProject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.net.Urls;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+
+public class MiTv_FindPrograms {
+
+	//
+	//	@Test
+	//	public static void findurls() {
+	//		WebDriver  driver= new FirefoxDriver();
+	//		//launching the url
+	//		driver.get("http://mi.tv/co/programacion");
+	//
+	//		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+	//
+	//		//printing the program details
+	//		List<WebElement> programs =driver.findElements(By.xpath("//h3/a"));
+	//		System.out.println("No of URLS   " +programs.size() );
+	//		Iterator<WebElement> itr = programs.iterator();//getting Iterator from arraylist to traverse
+	//		while(itr.hasNext()){
+	//			WebElementhannel-link anchor = itr.next();
+	//			anchor.findElement(By.xpath("//h3/a" )).click(); 
+	//			//((WebDriver) anchor).navigate().back();
+	//		}
+	//}
+
+
+
+	@Test
+	public void test() throws InterruptedException{
+		WebDriver driver = new FirefoxDriver();
+		driver.get("http://mi.tv/co/programacion");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		
+		//List<WebElement> totalChannels1 = driver.findElements(By.cssSelector(".channel item"));
+		List<WebElement> totalChannels = driver.findElements(By.xpath("//h1/a"));
+		System.out.println(totalChannels);
+		for (int i = 0; i < totalChannels.size(); i++){
+			
+			totalChannels.get(i).click();
+		}
+		
+			
+		
+	/*HashMap<WebElement,ArrayList<WebElement>> channelBroadcastsMap = new HashMap<WebElement,ArrayList<WebElement>>();
+		ArrayList<WebElement> totalBroadcasts = new ArrayList<WebElement>();
+
+
+		for(WebElement t:totalChannels){
+			WebElement onair= t.findElement(By.cssSelector(".broadcast.on-air"));
+			List<WebElement> next = t.findElements(By.cssSelector(".broadcast.next"));
+
+			onair.click();
+			for(WebElement temp: next){
+				temp.click();
+
+			}
+			totalBroadcasts.add(onair);
+			totalBroadcasts.addAll(next);
+			channelBroadcastsMap.put(t, totalBroadcasts);
+
+			totalBroadcasts = new ArrayList<WebElement>();
+		}*/
+		
+	}
+
+
+}
+/*while(itr.hasNext())
+		{
+
+			List<WebElement> programsl=driver.findElements(By.xpath("//h3/a"));
+
+	        }
+
+ */
+
+
+
+
+/*	try{
+			URL u = new URL((String) xpath);
+			URLConnection conn = u.openConnection();
+			//HttpURLConnection h = (HttpURLConnection) u.openConnection();
+			BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+			String inputLine;
+			StringBuffer contents = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+            	contents.append(System.getProperty(xpath, inputLine));
+
+                    System.out.println(inputLine);
+            }
+            br.close();
+
+            System.out.println("Done");
+
+
+			while ((s = dis.readLine()) != null) 
+			{
+				System.out.println(s);
+			} 
+		}
+			catch (Exception e) {
+
+			}
+	}
+	}
+ */
+
+/*public static void GapBetweenBroadcast(Object object){
+
+		InputStream is = null; 
+		String xpath="//time";
+		try{
+			URL u = new URL((String) object);
+			URLConnection conn = u.openConnection();
+			//HttpURLConnection h = (HttpURLConnection) u.openConnection();
+			BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+			String inputLine;
+			StringBuffer contents = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+            	contents.append(System.getProperty(xpath, inputLine));
+
+                    System.out.println(inputLine);
+            }
+            br.close();
+
+            System.out.println("Done");
+
+
+			while ((s = dis.readLine()) != null) 
+			{
+				System.out.println(s);
+			} 
+		}
+			catch (Exception e) {
+
+			}
+
+		}
+
+		public static boolean getResponseCode(String urlString) {
+			boolean isValid = false;
+
+			try {
+				URL u = new URL(urlString);
+				HttpURLConnection h = (HttpURLConnection) u.openConnection();
+				h.setRequestMethod("GET");
+				//to get the time
+				//Object obj=h.getContent();
+				//System.out.println(obj.getClass().
+				h.connect();
+
+				if (h.getResponseCode()!=404) {
+					//System.out.println("Response Code:   "+h.getResponseCode());
+					isValid = true;
+
+				}
+			} catch (Exception e) {
+
+			}
+			return isValid;
+
+		}
+
+	}*/
+
+
+/*•	Create test such that it can be used for any country
+•	Verify if there is a Gap between broadcasts
+•	Check if links are broken
+•	Verify if the film icon is displayed for films
+•	Sign in to Facebook and add channels, reorder channels and verify if the channels ordered are getting displayed on clicking mitv Homepage
+ */
