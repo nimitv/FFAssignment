@@ -1,0 +1,67 @@
+package TestNGProject;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+
+public class VerifyMovieIcon {
+
+	WebDriver driver = new FirefoxDriver();
+	
+	
+	@AfterClass
+	public void Afterclass() {
+		driver.quit();
+	}
+		
+	@Test
+	public void verifyMovieIcon()
+	{
+
+		driver.get("http://mi.tv/co/programacion");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		MenuTab();
+		List<WebElement> BroadcastonAir = driver.findElements(By.cssSelector(".broadcast.on-air"));
+		List<WebElement> Broadcastonnext = driver.findElements(By.cssSelector(".broadcast.next"));
+		int totalBroadcasts=BroadcastonAir.size()+Broadcastonnext.size();
+		System.out.println("Total Broadcast Present  ::"+totalBroadcasts);
+		
+		//To Print Movie names
+
+		for(WebElement t:BroadcastonAir){
+			System.out.println(t.getText());
+
+		}
+		for(WebElement t:Broadcastonnext){
+			System.out.println(t.getText());
+
+		}
+		List<WebElement> TotalMovieicon =driver.findElements(By.tagName("time"));	
+
+		System.out.println("Total Movie Icon   ::"+TotalMovieicon.size());
+		if (totalBroadcasts==TotalMovieicon.size()){
+			System.out.println("Movie icon is present for all the movie links");
+		}
+		else{			{
+			System.out.println("Movie icon doesn't present for all the movie links");
+		}
+		}
+	}
+
+	//For Accessing the menu tab for movie verification
+	public void MenuTab() {
+		WebElement MenuTabP = driver.findElement(By.linkText("Pelis"));
+		MenuTabP.click();
+	}
+}
+
+
+
